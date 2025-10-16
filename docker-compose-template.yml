@@ -1,0 +1,67 @@
+# =================================================================
+#      DOCKER COMPOSE TEMPLATE FILE
+#
+#   Purpose: This is a template for setting up your local WordPress environment.
+#   Action: You MUST replace the 'xx' placeholders with the correct versions
+#           from the production environment to ensure 100% compatibility.
+#
+#   How-to: Find these versions in the WordPress Admin panel under
+#           "Tools > Site Health > Info".
+#
+#   Usage: Rename this file to `docker-compose.yml` to use it.
+# =================================================================
+services:
+  db:
+    # IMPORTANT: Replace 'xx' with the database server version found in "Site Health".
+    # Example: mysql:8.0 or mariadb:10.6
+    image: mysql:xx
+    container_name: wordpress-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+
+  wordpress:
+    # IMPORTANT: Replace 'wp-xx' with the WordPress version and 'php-xx' with the PHP version.
+    # Check Docker Hub for available tags.
+    # Example: wordpress:6.4-php8.1-apache
+    image: wordpress:wp-xx-php-xx-apache
+    container_name: wordpress-app
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp_files:/var/www/html
+      - ./wp-config.php:/var/www/html/wp-config.php
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+  phpmyadmin:
+    # This is a development tool, pinning to a major version is a safe practice.
+    image: phpmyadmin:5
+    container_name: wordpress-phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+
+volumes:
+  db_data:

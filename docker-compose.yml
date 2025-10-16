@@ -1,0 +1,59 @@
+# =================================================================
+#      DOCKER CONFIGURATION FILE UPDATED (16/10/2025)
+#   Based on production environment versions:
+#   - WordPress: 6.8.3
+#   - PHP: 8.3.25
+#   - Database (MySQL): 8.4.6
+# =================================================================
+services:
+  db:
+    image: mysql:8.4
+    container_name: wordpress-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    #  Command to ensure the same character set as production.
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+
+  wordpress:
+    image: wordpress:6.8.3-php8.3-apache
+    container_name: wordpress-app
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppassword
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "true"
+    volumes:
+      - ./wp_files:/var/www/html
+      - ./wp-config.php:/var/www/html/wp-config.php
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: wordpress-phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      # The credentials are the same as the MySQL database
+      PMA_USER: root # Use root to have full access in phpMyAdmin
+      PMA_PASSWORD: rootpassword
+
+volumes:
+  db_data:
