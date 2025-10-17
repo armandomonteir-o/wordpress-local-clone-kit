@@ -26,7 +26,9 @@ Após enfrentar esses problemas repetidamente, criei um template reutilizável: 
 
 ## A Solução
 
-O WordPress Local Clone Kit é um repositório template que fornece um fluxo de trabalho testado e repetível para clonar sites WordPress localmente.
+**O WordPress Local Clone Kit** é um repositório template que fornece um fluxo de trabalho testado e repetível para clonar sites WordPress localmente. A ideia foi criar uma solução "baterias inclusas" que ataca diretamente as dores do processo, oferecendo não apenas os arquivos, mas um guia claro para transformar um processo árduo e imprevisível em um workflow rápido e confiável.
+
+Este kit foi construído para ser a solução definitiva para os problemas que enfrentei, consolidando todas as correções e melhores práticas em um único lugar.
 
 ## Principais Funcionalidades
 
@@ -117,7 +119,7 @@ sudo rm -rf ./wp_files/*
 
 ## Licença
 
-Este projeto é licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para detalhes.
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## Contribuidor
 
