@@ -42,6 +42,15 @@ This kit was built to be the definitive solution to the problems I faced, consol
 
 Follow these steps to clone a WordPress site with this kit.
 
+## Prerequisites
+
+Before you begin, make sure you have the following items:
+
+- Docker and Docker Compose installed and running on your machine.
+- A `.wpress` backup file from the production site.
+
+How to obtain it: To generate the backup file, install the All-in-One WP Migration plugin on the production site, go to Export > Export To > File and download the `.wpress` file.
+
 ### Step 1: Audit the Production Environment (Crucial)
 
 To create a faithful clone, make sure your local environment mirrors production.
@@ -99,7 +108,7 @@ Your site should now be cloned and functional.
 
 The kit focuses on environment parity, robustness and portability.
 
-- **Docker**: Builds isolated, consistent development environments across OSes.
+- **Docker and Docker Compose**: Builds isolated, consistent development environments across OSes.
 - **Official WordPress image**: Allows matching WordPress and PHP versions.
 - **Official MySQL image**: Allows aligning database server versions with production.
 - **phpMyAdmin**: Included for convenient visual DB management.
